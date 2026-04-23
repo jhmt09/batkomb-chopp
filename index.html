@@ -1,0 +1,701 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catalogo BATKOMB CHOPP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Cinzel:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --night-950: #03050a;
+      --night-900: #070b15;
+      --night-850: #0d1424;
+      --night-800: #111b30;
+      --gold-500: #d6a449;
+      --gold-400: #e8bf73;
+      --silver-100: #f0f4ff;
+      --silver-300: #c8d1e3;
+      --steel-500: #60708f;
+      --line: rgba(203, 217, 246, 0.18);
+      --card-bg: rgba(8, 13, 24, 0.82);
+      --card-bg-strong: rgba(5, 9, 18, 0.92);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --shadow-deep: 0 24px 60px rgba(0, 0, 0, 0.56);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--silver-100);
+      background:
+        radial-gradient(circle at 15% -10%, rgba(72, 94, 153, 0.22), transparent 34%),
+        radial-gradient(circle at 85% 4%, rgba(214, 164, 73, 0.12), transparent 30%),
+        linear-gradient(180deg, #071022 0%, #040911 42%, #02040a 100%);
+      font-family: "Barlow Condensed", "Segoe UI", sans-serif;
+      letter-spacing: 0.02em;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.04) 0.6px, transparent 0.7px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.03) 0.5px, transparent 0.62px);
+      background-size: 3px 3px, 5px 5px;
+      opacity: 0.14;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.9) 100%);
+      z-index: -1;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 2.2rem));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: linear-gradient(180deg, rgba(5, 9, 18, 0.96) 0%, rgba(5, 9, 18, 0.72) 74%, rgba(5, 9, 18, 0) 100%);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(126, 148, 186, 0.16);
+    }
+
+    .nav-wrap {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-logo {
+      width: min(320px, 60vw);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.65));
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links a {
+      color: var(--silver-300);
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-400);
+    }
+
+    .phone-link {
+      color: var(--gold-400) !important;
+      font-weight: 700;
+    }
+
+    .hero {
+      padding: 72px 0 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 180px;
+      left: 50%;
+      top: 8px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: radial-gradient(ellipse at center, rgba(238, 204, 121, 0.62) 0%, rgba(214, 164, 73, 0.22) 58%, rgba(214, 164, 73, 0) 100%);
+      filter: blur(0.5px);
+      animation: signalPulse 7s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      align-items: end;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-copy {
+      background: linear-gradient(150deg, rgba(12, 20, 35, 0.78), rgba(5, 9, 16, 0.88));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 28px 26px;
+      box-shadow: var(--shadow-deep);
+      animation: riseIn 0.75s ease both;
+      max-width: 860px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 15px;
+      color: var(--gold-400);
+      text-transform: uppercase;
+      letter-spacing: 0.17em;
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      margin: 10px 0 12px;
+      font-family: "Cinzel", Georgia, serif;
+      font-size: clamp(30px, 5.5vw, 56px);
+      line-height: 1.02;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--silver-300);
+      font-size: clamp(18px, 2.4vw, 22px);
+      max-width: 36ch;
+    }
+
+    .hero-cta {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-size: 16px;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-primary {
+      color: #15100a;
+      background: linear-gradient(180deg, #f2cc87 0%, #d4a148 100%);
+      box-shadow: 0 10px 26px rgba(214, 164, 73, 0.28);
+    }
+
+    .btn-secondary {
+      color: var(--silver-100);
+      border: 1px solid rgba(200, 209, 227, 0.42);
+      background: rgba(8, 14, 27, 0.6);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .catalog {
+      padding: 26px 0 12px;
+    }
+
+    .section-title {
+      margin: 0 0 18px;
+      font-family: "Cinzel", Georgia, serif;
+      font-size: clamp(26px, 4.2vw, 40px);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .product-card {
+      background: linear-gradient(160deg, rgba(9, 14, 26, 0.86), rgba(5, 8, 15, 0.95));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-deep);
+      animation: riseIn 0.68s ease both;
+    }
+
+    .product-card:nth-child(2) {
+      animation-delay: 0.14s;
+    }
+
+    .poster {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(200, 209, 227, 0.16);
+      background: #04070e;
+    }
+
+    .poster::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.48) 100%);
+      pointer-events: none;
+    }
+
+    .poster img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transform: scale(1.01);
+      transition: transform 0.35s ease;
+    }
+
+    .product-card:hover .poster img {
+      transform: scale(1.06);
+    }
+
+    .card-body {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .card-head {
+      display: grid;
+      gap: 6px;
+    }
+
+    .card-head h3 {
+      margin: 0;
+      font-family: "Cinzel", Georgia, serif;
+      font-size: clamp(20px, 2.6vw, 30px);
+      line-height: 1.08;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      border: 1px solid rgba(232, 191, 115, 0.48);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: var(--gold-400);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      background: rgba(214, 164, 73, 0.12);
+    }
+
+    .price-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .price-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(126, 148, 186, 0.32);
+      border-radius: var(--radius-md);
+      background: rgba(12, 18, 33, 0.65);
+      padding: 11px 13px;
+      gap: 10px;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .price-list strong {
+      color: var(--gold-400);
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .price-list span {
+      font-weight: 600;
+      color: var(--silver-300);
+    }
+
+    .payment {
+      margin: 2px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      color: var(--silver-300);
+      font-size: 19px;
+      line-height: 1.28;
+    }
+
+    .payment li {
+      border-left: 2px solid rgba(232, 191, 115, 0.46);
+      padding-left: 10px;
+    }
+
+    .reserve {
+      padding: 34px 0 16px;
+    }
+
+    .reserve-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .rule-box {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      background: linear-gradient(160deg, rgba(11, 18, 32, 0.82), rgba(5, 10, 19, 0.94));
+      box-shadow: var(--shadow-deep);
+      animation: riseIn 0.72s ease both;
+    }
+
+    .rule-box:nth-child(2) {
+      animation-delay: 0.14s;
+    }
+
+    .rule-box h3 {
+      margin: 0 0 10px;
+      font-family: "Cinzel", Georgia, serif;
+      font-size: clamp(20px, 2.4vw, 27px);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .rule-box p {
+      margin: 0;
+      color: var(--silver-300);
+      font-size: 19px;
+      line-height: 1.35;
+    }
+
+    .cta-panel {
+      margin-top: 20px;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(232, 191, 115, 0.32);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(232, 191, 115, 0.16), rgba(232, 191, 115, 0) 48%),
+        linear-gradient(145deg, rgba(12, 20, 37, 0.9), rgba(6, 10, 19, 0.98));
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+      box-shadow: var(--shadow-deep);
+    }
+
+    .cta-panel h3 {
+      margin: 0;
+      font-family: "Cinzel", Georgia, serif;
+      font-size: clamp(24px, 3.8vw, 34px);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .cta-panel p {
+      margin: 0;
+      color: var(--silver-300);
+      font-size: 20px;
+    }
+
+    .cta-panel strong {
+      color: var(--gold-400);
+    }
+
+    .cta-panel .btn {
+      width: fit-content;
+    }
+
+    footer {
+      padding: 34px 0 24px;
+      color: #8d9bb9;
+      border-top: 1px solid rgba(126, 148, 186, 0.18);
+      margin-top: 34px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes signalPulse {
+      0%, 100% {
+        opacity: 0.56;
+        transform: translateX(-50%) scale(1);
+      }
+      50% {
+        opacity: 0.86;
+        transform: translateX(-50%) scale(1.06);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .products-grid,
+      .reserve-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 58px;
+      }
+
+      .hero::before {
+        width: 290px;
+        height: 150px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(1120px, calc(100% - 1.2rem));
+      }
+
+      .nav-wrap {
+        min-height: 66px;
+      }
+
+      .nav-links {
+        gap: 10px;
+        font-size: 13px;
+      }
+
+      .brand-logo {
+        width: min(250px, 58vw);
+      }
+
+      .hero-copy,
+      .card-body,
+      .rule-box,
+      .cta-panel {
+        padding: 16px;
+      }
+
+      .price-list li {
+        font-size: 19px;
+        padding: 10px 11px;
+      }
+
+      .price-list strong {
+        font-size: 23px;
+      }
+
+      .payment,
+      .rule-box p,
+      .cta-panel p {
+        font-size: 17px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .hero-cta {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links a:nth-child(2) {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 33px;
+      }
+
+      .section-title {
+        font-size: 29px;
+      }
+
+      .card-head h3 {
+        font-size: 24px;
+      }
+
+      .price-list li {
+        font-size: 18px;
+      }
+
+      .price-list strong {
+        font-size: 22px;
+      }
+
+      .eyebrow {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#topo" aria-label="Inicio BATKOMB CHOPP">
+        <img class="brand-logo" src="./assets/novalogo.png" alt="Logo BATKOMB CHOPP" loading="eager" />
+      </a>
+      <nav class="nav-links" aria-label="Navegacao principal">
+        <a href="#produtos">Produtos</a>
+        <a href="#reserva">Reserva</a>
+        <a class="phone-link" href="https://wa.me/556292498919?text=Ola%2C%20quero%20fazer%20um%20pedido%20de%20chopp." target="_blank" rel="noopener noreferrer">(62) 9249-8919</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="topo">
+    <section class="hero">
+      <div class="container hero-grid">
+        <article class="hero-copy">
+          <h1>BATKOMB CHOPP</h1>
+          <p>A noite é escura e cheia de terrores... e eu estou pronto para encarar todos eles com um copo na mão.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#produtos">Ver catalogo</a>
+            <a class="btn btn-secondary" href="#reserva">Como reservar</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="produtos" class="catalog container" aria-label="Catalogo de produtos">
+      <h2 class="section-title">Produtos em destaque</h2>
+
+      <div class="products-grid">
+        <article class="product-card" aria-labelledby="pilsen-title">
+          <figure class="poster">
+            <img src="./assets/pilsen.jpg" alt="Pilsen Klaro Chopp com visual Batman" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="pilsen-title">Pilsen Klaro Chopp</h3>
+              <span class="chip">Classico pilsen</span>
+            </header>
+
+            <ul class="price-list" aria-label="Precos Pilsen Klaro Chopp">
+              <li><span>30 litros</span> <strong>R$ 450,00</strong></li>
+              <li><span>50 litros</span> <strong>R$ 600,00</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Regras de pagamento Pilsen Klaro Chopp">
+              <li>Pagamento antecipado via PIX ou dinheiro.</li>
+              <li>No cartao de credito, acrescimo de 6% para pagamento em 1x.</li>
+              <li>Parcelamento em 2x ou mais com taxas da operadora.</li>
+              <li>Reserva mediante deposito de 50% do valor total.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="triplo-title">
+          <figure class="poster">
+            <img src="./assets/triplo-malte.jpeg" alt="Klaro Chopp Triplo Malte Premium com visual Batman" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="triplo-title">Klaro Chopp Triplo Malte Premium</h3>
+              <span class="chip">Linha premium</span>
+            </header>
+
+            <ul class="price-list" aria-label="Precos Klaro Chopp Triplo Malte Premium">
+              <li><span>30 litros</span> <strong>R$ 500,00</strong></li>
+              <li><span>50 litros</span> <strong>R$ 750,00</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Regras de pagamento Klaro Chopp Triplo Malte Premium">
+              <li>Entrada de 50% no momento da confirmacao do pedido.</li>
+              <li>Saldo de 50% pago no ato da entrega.</li>
+              <li>Reserva confirmada somente apos comprovacao do sinal.</li>
+              <li>Consulte disponibilidade de data antes do pagamento.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="reserva" class="reserve container" aria-label="Politica de reserva">
+      <h2 class="section-title">Regras de reserva</h2>
+
+      <div class="reserve-grid">
+        <article class="rule-box">
+          <h3>Confirmacao do pedido</h3>
+          <p>Todos os pedidos sao bloqueados por ordem de pagamento. O deposito de 50% garante a data no calendario operacional.</p>
+        </article>
+
+        <article class="rule-box">
+          <h3>Saldo e entrega</h3>
+          <p>O valor restante deve ser quitado conforme a regra do produto escolhido. Em casos de cartao parcelado, aplicam-se as taxas da operadora.</p>
+        </article>
+      </div>
+
+      <article id="contato" class="cta-panel" aria-label="Contato para reserva">
+        <h3>Pedidos em Goiânia</h3>
+        <p>Contato oficial para pedidos e reservas: <strong>(62) 9249-8919</strong>.</p>
+        <a class="btn btn-primary" href="https://wa.me/556292498919?text=Ola%2C%20quero%20fazer%20um%20pedido%20de%20chopp%20BATKOMB." target="_blank" rel="noopener noreferrer">Pedir no WhatsApp</a>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>BATKOMB CHOPP • Catalogo tematico Goiânia • Atualizado em 23/04/2026</p>
+    </div>
+  </footer>
+</body>
+</html>
