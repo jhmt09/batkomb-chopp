@@ -57,9 +57,10 @@
       min-height: 100vh;
       color: var(--silver-100);
       background:
-        radial-gradient(circle at 15% -10%, rgba(72, 94, 153, 0.22), transparent 34%),
-        radial-gradient(circle at 85% 4%, rgba(214, 164, 73, 0.12), transparent 30%),
-        linear-gradient(180deg, #071022 0%, #040911 42%, #02040a 100%);
+        radial-gradient(circle at 52% -8%, rgba(128, 176, 255, 0.18), transparent 30%),
+        radial-gradient(circle at 14% 8%, rgba(58, 134, 255, 0.12), transparent 34%),
+        radial-gradient(circle at 86% 12%, rgba(244, 179, 82, 0.1), transparent 36%),
+        linear-gradient(180deg, #071021 0%, #071322 34%, #050d1a 62%, #040912 100%);
       font-family: "Barlow Condensed", "Segoe UI", sans-serif;
       letter-spacing: 0.02em;
       position: relative;
@@ -72,10 +73,12 @@
       inset: 0;
       pointer-events: none;
       background-image:
-        radial-gradient(circle, rgba(255, 255, 255, 0.04) 0.6px, transparent 0.7px),
-        radial-gradient(circle, rgba(255, 255, 255, 0.03) 0.5px, transparent 0.62px);
-      background-size: 3px 3px, 5px 5px;
-      opacity: 0.14;
+        linear-gradient(rgba(128, 176, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(128, 176, 255, 0.05) 1px, transparent 1px),
+        radial-gradient(circle at 20% 10%, rgba(175, 219, 255, 0.08) 0.6px, transparent 0.7px),
+        radial-gradient(circle at 80% 15%, rgba(252, 206, 118, 0.08) 0.6px, transparent 0.7px);
+      background-size: 8px 8px, 8px 8px, 3px 3px, 4px 4px;
+      opacity: 0.2;
       z-index: -2;
     }
 
@@ -84,7 +87,14 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background: radial-gradient(circle, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.9) 100%);
+      background:
+        radial-gradient(circle at center, rgba(0, 0, 0, 0) 34%, rgba(0, 0, 0, 0.82) 100%),
+        linear-gradient(0deg, rgba(2, 6, 14, 0.96) 0%, rgba(4, 10, 22, 0.88) 19%, rgba(4, 10, 22, 0.18) 44%, rgba(4, 10, 22, 0) 58%),
+        repeating-linear-gradient(90deg, rgba(7, 15, 30, 0.84) 0 20px, rgba(13, 25, 45, 0.84) 20px 34px, rgba(9, 17, 33, 0.84) 34px 56px);
+      background-size: auto, auto, 100% 34%;
+      background-repeat: no-repeat;
+      background-position: center, center bottom, center bottom;
+      opacity: 0.7;
       z-index: -1;
     }
 
@@ -262,6 +272,13 @@
       text-transform: uppercase;
     }
 
+    .section-copy {
+      margin: -4px 0 18px;
+      color: var(--silver-300);
+      font-size: clamp(17px, 2.1vw, 21px);
+      max-width: 58ch;
+    }
+
     .products-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -400,6 +417,39 @@
       padding-left: 10px;
     }
 
+    .gallery {
+      padding: 26px 0 6px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .gallery-card {
+      margin: 0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(126, 148, 186, 0.3);
+      box-shadow: var(--shadow-deep);
+      background: rgba(8, 13, 24, 0.7);
+      min-height: 100%;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 4 / 5;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-card:hover img {
+      transform: scale(1.04);
+    }
+
     .reserve {
       padding: 34px 0 16px;
     }
@@ -512,7 +562,8 @@
 
     @media (max-width: 980px) {
       .products-grid,
-      .reserve-grid {
+      .reserve-grid,
+      .gallery-grid {
         grid-template-columns: 1fr;
       }
 
@@ -562,7 +613,8 @@
 
       .payment,
       .rule-box p,
-      .cta-panel p {
+      .cta-panel p,
+      .section-copy {
         font-size: 17px;
       }
 
@@ -614,6 +666,7 @@
       </a>
       <nav class="nav-links" aria-label="Navegacao principal">
         <a href="#produtos">Produtos</a>
+        <a href="#galeria">Galeria</a>
         <a href="#reserva">Reserva</a>
         <a class="phone-link" href="https://wa.me/556292498919?text=Ola%2C%20quero%20fazer%20um%20pedido%20de%20chopp." target="_blank" rel="noopener noreferrer">(62) 9249-8919</a>
       </nav>
@@ -628,6 +681,7 @@
           <p>A noite é escura e cheia de terrores... e eu estou pronto para encarar todos eles com um copo na mão.</p>
           <div class="hero-cta">
             <a class="btn btn-primary" href="#produtos">Ver catalogo</a>
+            <a class="btn btn-secondary" href="#galeria">Ver galeria</a>
             <a class="btn btn-secondary" href="#reserva">Como reservar</a>
           </div>
         </article>
@@ -635,7 +689,8 @@
     </section>
 
     <section id="produtos" class="catalog container" aria-label="Catalogo de produtos">
-      <h2 class="section-title">Produtos em destaque</h2>
+      <h2 class="section-title">Catalogo completo</h2>
+      <p class="section-copy">Chopeiras, latas e growlers com venda por unidade e atendimento para Senador Canedo e regiao.</p>
 
       <div class="products-grid">
         <article class="product-card" aria-labelledby="pilsen-title">
@@ -699,9 +754,9 @@
               <span class="chip">Novo no catalogo</span>
             </header>
 
-            <ul class="price-list" aria-label="Informacoes do produto BATKOMB CHOPP Especial">
-              <li><span>Volumes</span> <strong>30L / 50L</strong></li>
-              <li><span>Valor</span> <strong>Consultar</strong></li>
+            <ul class="price-list" aria-label="Precos do produto BATKOMB CHOPP Especial">
+              <li><span>30L</span> <strong>R$ 480,00</strong></li>
+              <li><span>40L</span> <strong>R$ 650,00</strong></li>
             </ul>
 
             <ul class="payment" aria-label="Detalhes do produto BATKOMB CHOPP Especial">
@@ -711,6 +766,251 @@
             </ul>
           </div>
         </article>
+
+        <article class="product-card" aria-labelledby="vinho-350-title">
+          <figure class="poster">
+            <img src="./assets/catalogo/vinho-350ml.jpeg" alt="Klaro cooler de vinho 350 ml" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="vinho-350-title">Chopp de Vinho 350 ml</h3>
+              <span class="chip">Unidade</span>
+            </header>
+
+            <ul class="price-list" aria-label="Preco Chopp de Vinho 350 ml">
+              <li><span>350 ml</span> <strong>R$ 6,50</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Detalhes Chopp de Vinho 350 ml">
+              <li>Venda unitária, consultar estoque no WhatsApp.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="vinho-275-title">
+          <figure class="poster">
+            <img src="./assets/catalogo/vinho-275ml.jpeg" alt="Klaro cooler de vinho 275 ml" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="vinho-275-title">Chopp de Vinho 275 ml</h3>
+              <span class="chip">Unidade</span>
+            </header>
+
+            <ul class="price-list" aria-label="Preco Chopp de Vinho 275 ml">
+              <li><span>275 ml</span> <strong>R$ 7,50</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Detalhes Chopp de Vinho 275 ml">
+              <li>Venda unitária, consultar estoque no WhatsApp.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="pilsen-355-title">
+          <figure class="poster">
+            <img src="./assets/catalogo/pilsen-355ml.jpeg" alt="Pilsen Klaro 355 ml em lata" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="pilsen-355-title">Pilsen Klaro 355 ml</h3>
+              <span class="chip">Unidade</span>
+            </header>
+
+            <ul class="price-list" aria-label="Preco Pilsen Klaro 355 ml">
+              <li><span>355 ml</span> <strong>R$ 4,30</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Detalhes Pilsen Klaro 355 ml">
+              <li>Venda unitária, consultar estoque no WhatsApp.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="triplo-355-title">
+          <figure class="poster">
+            <img src="./assets/catalogo/triplo-malte-355ml.jpeg" alt="Triplo malte Klaro 355 ml em lata" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="triplo-355-title">Triplo Malte 355 ml</h3>
+              <span class="chip">Unidade</span>
+            </header>
+
+            <ul class="price-list" aria-label="Preco Triplo Malte 355 ml">
+              <li><span>355 ml</span> <strong>R$ 4,90</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Detalhes Triplo Malte 355 ml">
+              <li>Venda unitária, consultar estoque no WhatsApp.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="puro-600-title">
+          <figure class="poster">
+            <img src="./assets/catalogo/puro-malte-600ml.jpeg" alt="Puro malte Klaro 600 ml" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="puro-600-title">Puro Malte 600 ml</h3>
+              <span class="chip">Unidade</span>
+            </header>
+
+            <ul class="price-list" aria-label="Preco Puro Malte 600 ml">
+              <li><span>600 ml</span> <strong>R$ 8,20</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Detalhes Puro Malte 600 ml">
+              <li>Venda unitária, consultar estoque no WhatsApp.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="puro-350-title">
+          <figure class="poster">
+            <img src="./assets/catalogo/puro-malte-350ml.jpeg" alt="Puro malte Klaro 350 ml" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="puro-350-title">Puro Malte 350 ml</h3>
+              <span class="chip">Unidade</span>
+            </header>
+
+            <ul class="price-list" aria-label="Preco Puro Malte 350 ml">
+              <li><span>350 ml</span> <strong>R$ 4,50</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Detalhes Puro Malte 350 ml">
+              <li>Venda unitária, consultar estoque no WhatsApp.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="growler-triplo-title">
+          <figure class="poster">
+            <img src="./assets/catalogo/growler-triplo-malte-1-5l.jpeg" alt="Growler Klaro triplo malte 1,5 litro" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="growler-triplo-title">Growler Triplo Malte 1,5 L</h3>
+              <span class="chip">Unidade</span>
+            </header>
+
+            <ul class="price-list" aria-label="Preco Growler Triplo Malte 1,5 L">
+              <li><span>1,5 litro</span> <strong>R$ 18,00</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Detalhes Growler Triplo Malte 1,5 L">
+              <li>Venda unitária, consultar estoque no WhatsApp.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="growler-puro-title">
+          <figure class="poster">
+            <img src="./assets/catalogo/growler-puro-malte-1-5l.jpeg" alt="Growler Klaro puro malte 1,5 litro" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="growler-puro-title">Growler Puro Malte 1,5 L</h3>
+              <span class="chip">Unidade</span>
+            </header>
+
+            <ul class="price-list" aria-label="Preco Growler Puro Malte 1,5 L">
+              <li><span>1,5 litro</span> <strong>R$ 16,00</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Detalhes Growler Puro Malte 1,5 L">
+              <li>Venda unitária, consultar estoque no WhatsApp.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="growler-vinho-title">
+          <figure class="poster">
+            <img src="./assets/catalogo/growler-vinho-1-0l.jpeg" alt="Growler Klaro cooler de vinho" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="growler-vinho-title">Growler de Vinho 1,0 L</h3>
+              <span class="chip">Unidade</span>
+            </header>
+
+            <ul class="price-list" aria-label="Preco Growler de Vinho 1,0 L">
+              <li><span>1,0 litro</span> <strong>R$ 20,00</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Detalhes Growler de Vinho 1,0 L">
+              <li>Venda unitária, consultar estoque no WhatsApp.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="growler-pilsen-title">
+          <figure class="poster">
+            <img src="./assets/catalogo/growler-pilsen-1-5l.jpeg" alt="Growler Klaro pilsen 1,5 litro" loading="lazy" />
+          </figure>
+
+          <div class="card-body">
+            <header class="card-head">
+              <h3 id="growler-pilsen-title">Growler Pilsen 1,5 L</h3>
+              <span class="chip">Unidade</span>
+            </header>
+
+            <ul class="price-list" aria-label="Preco Growler Pilsen 1,5 L">
+              <li><span>1,5 litro</span> <strong>R$ 15,00</strong></li>
+            </ul>
+
+            <ul class="payment" aria-label="Detalhes Growler Pilsen 1,5 L">
+              <li>Venda unitária, consultar estoque no WhatsApp.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="galeria" class="gallery container" aria-label="Galeria de imagens">
+      <h2 class="section-title">Galeria BATKOMB</h2>
+      <p class="section-copy">Selecao visual do catalogo oficial. As imagens abaixo correspondem aos arquivos de galeria enviados.</p>
+
+      <div class="gallery-grid">
+        <figure class="gallery-card">
+          <img src="./assets/catalogo/galeria-1.jpeg" alt="Imagem de galeria 1" loading="lazy" />
+        </figure>
+        <figure class="gallery-card">
+          <img src="./assets/catalogo/galeria-2.jpeg" alt="Imagem de galeria 2" loading="lazy" />
+        </figure>
+        <figure class="gallery-card">
+          <img src="./assets/catalogo/galeria-3.jpeg" alt="Imagem de galeria 3" loading="lazy" />
+        </figure>
+        <figure class="gallery-card">
+          <img src="./assets/catalogo/galeria-4.jpeg" alt="Imagem de galeria 4" loading="lazy" />
+        </figure>
+        <figure class="gallery-card">
+          <img src="./assets/catalogo/galeria-5.jpeg" alt="Imagem de galeria 5" loading="lazy" />
+        </figure>
+        <figure class="gallery-card">
+          <img src="./assets/catalogo/galeria-6.jpeg" alt="Imagem de galeria 6" loading="lazy" />
+        </figure>
+        <figure class="gallery-card">
+          <img src="./assets/catalogo/galeria-7.jpeg" alt="Imagem de galeria 7" loading="lazy" />
+        </figure>
+        <figure class="gallery-card">
+          <img src="./assets/catalogo/galeria-8.jpeg" alt="Imagem de galeria 8" loading="lazy" />
+        </figure>
+        <figure class="gallery-card">
+          <img src="./assets/catalogo/galeria-9.jpeg" alt="Imagem de galeria 9" loading="lazy" />
+        </figure>
       </div>
     </section>
 
