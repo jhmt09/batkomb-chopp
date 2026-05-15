@@ -283,6 +283,58 @@
       max-width: 58ch;
     }
 
+    .catalog-tools {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(150px, 220px) auto;
+      gap: 12px;
+      align-items: end;
+      margin: 0 0 18px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(6, 11, 21, 0.72);
+    }
+
+    .filter-field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .filter-field span,
+    .catalog-status {
+      color: var(--silver-300);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .filter-field input {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid rgba(126, 148, 186, 0.42);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      color: var(--silver-100);
+      background: rgba(3, 5, 10, 0.78);
+      font: inherit;
+      font-size: 18px;
+    }
+
+    .filter-field input:focus {
+      border-color: rgba(232, 191, 115, 0.72);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(232, 191, 115, 0.14);
+    }
+
+    .catalog-status {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: rgba(200, 209, 227, 0.82);
+      text-transform: none;
+      letter-spacing: 0.02em;
+    }
+
     .products-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -419,6 +471,30 @@
     .payment li {
       border-left: 2px solid rgba(232, 191, 115, 0.46);
       padding-left: 10px;
+    }
+
+    .product-action {
+      width: fit-content;
+      margin-top: 2px;
+    }
+
+    .product-card.is-hidden {
+      display: none;
+    }
+
+    .empty-results {
+      display: none;
+      margin: 8px 0 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      color: var(--silver-300);
+      background: rgba(6, 11, 21, 0.72);
+      font-size: 20px;
+    }
+
+    .empty-results.is-visible {
+      display: block;
     }
 
     .gallery {
@@ -571,6 +647,10 @@
         grid-template-columns: 1fr;
       }
 
+      .catalog-tools {
+        grid-template-columns: 1fr;
+      }
+
       body {
         background-attachment: scroll;
       }
@@ -627,6 +707,10 @@
       }
 
       .btn {
+        width: 100%;
+      }
+
+      .product-action {
         width: 100%;
       }
 
@@ -699,6 +783,21 @@
     <section id="produtos" class="catalog container" aria-label="Catalogo de produtos">
       <h2 class="section-title">Catalogo completo</h2>
       <p class="section-copy">Chopeiras, latas e growlers com venda por unidade e atendimento para Senador Canedo e regiao.</p>
+
+      <div class="catalog-tools" aria-label="Filtros do catalogo">
+        <label class="filter-field" for="catalogSearch">
+          <span>Pesquisar</span>
+          <input id="catalogSearch" type="search" placeholder="Produto, linha ou volume" autocomplete="off" />
+        </label>
+
+        <label class="filter-field" for="priceFilter">
+          <span>Preco maximo</span>
+          <input id="priceFilter" type="text" placeholder="Ex: 20,00" inputmode="decimal" />
+        </label>
+
+        <button class="btn btn-secondary" id="clearCatalogFilters" type="button">Limpar</button>
+        <p class="catalog-status" id="catalogStatus" aria-live="polite"></p>
+      </div>
 
       <div class="products-grid">
         <article class="product-card" aria-labelledby="pilsen-title">
@@ -1009,6 +1108,8 @@
           </div>
         </article>
       </div>
+
+      <p class="empty-results" id="emptyCatalogResults">Nenhum produto encontrado com esses filtros.</p>
     </section>
 
     <section id="galeria" class="gallery container" aria-label="Galeria de imagens">
@@ -1074,5 +1175,104 @@
       <p>Desenvolvido pela EJtechy</p>
     </div>
   </footer>
+
+  <script>
+    (() => {
+      const supplierPhone = "556292498919";
+      const grid = document.querySelector(".products-grid");
+      const searchInput = document.querySelector("#catalogSearch");
+      const priceInput = document.querySelector("#priceFilter");
+      const clearButton = document.querySelector("#clearCatalogFilters");
+      const status = document.querySelector("#catalogStatus");
+      const emptyState = document.querySelector("#emptyCatalogResults");
+
+      if (!grid) return;
+
+      const parsePrice = (value) => {
+        const normalized = value
+          .replace(/[^\d,.-]/g, "")
+          .replace(/\./g, "")
+          .replace(",", ".");
+
+        return Number.parseFloat(normalized);
+      };
+
+      const formatPrice = (value) => value.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+
+      const cards = Array.from(grid.querySelectorAll(".product-card")).map((card) => {
+        const title = card.querySelector("h3")?.textContent.trim() || "Produto";
+        const chip = card.querySelector(".chip")?.textContent.trim() || "";
+        const priceRows = Array.from(card.querySelectorAll(".price-list li"));
+        const priceTexts = priceRows.map((row) => row.textContent.replace(/\s+/g, " ").trim());
+        const prices = priceRows
+          .map((row) => parsePrice(row.querySelector("strong")?.textContent || ""))
+          .filter(Number.isFinite);
+        const minPrice = Math.min(...prices);
+        const searchableText = [title, chip, ...priceTexts, card.textContent].join(" ").toLowerCase();
+        const message = [
+          "Ola, quero esse produto do catalogo BATKOMB CHOPP:",
+          title,
+          "",
+          "Valores:",
+          ...priceTexts
+        ].join("\n");
+
+        card.dataset.minPrice = String(minPrice);
+        card.dataset.search = searchableText;
+
+        if (!card.querySelector(".product-action")) {
+          const action = document.createElement("a");
+          action.className = "btn btn-primary product-action";
+          action.href = `https://wa.me/${supplierPhone}?text=${encodeURIComponent(message)}`;
+          action.target = "_blank";
+          action.rel = "noopener noreferrer";
+          action.textContent = "Quero esse";
+          card.querySelector(".card-body")?.append(action);
+        }
+
+        return { card, minPrice, title };
+      }).sort((a, b) => a.minPrice - b.minPrice || a.title.localeCompare(b.title, "pt-BR"));
+
+      cards.forEach(({ card }) => grid.append(card));
+
+      const minCatalogPrice = Math.min(...cards.map(({ minPrice }) => minPrice));
+      const maxCatalogPrice = Math.max(...cards.map(({ minPrice }) => minPrice));
+
+      const updateCatalog = () => {
+        const query = (searchInput?.value || "").trim().toLowerCase();
+        const maxPrice = parsePrice(priceInput?.value || "");
+        let visible = 0;
+
+        cards.forEach(({ card, minPrice }) => {
+          const matchesSearch = !query || card.dataset.search.includes(query);
+          const matchesPrice = !Number.isFinite(maxPrice) || minPrice <= maxPrice;
+          const show = matchesSearch && matchesPrice;
+
+          card.classList.toggle("is-hidden", !show);
+          if (show) visible += 1;
+        });
+
+        if (status) {
+          status.textContent = `${visible} de ${cards.length} produtos. Ordenado do menor para o maior: ${formatPrice(minCatalogPrice)} ate ${formatPrice(maxCatalogPrice)}.`;
+        }
+
+        emptyState?.classList.toggle("is-visible", visible === 0);
+      };
+
+      searchInput?.addEventListener("input", updateCatalog);
+      priceInput?.addEventListener("input", updateCatalog);
+      clearButton?.addEventListener("click", () => {
+        if (searchInput) searchInput.value = "";
+        if (priceInput) priceInput.value = "";
+        updateCatalog();
+        searchInput?.focus();
+      });
+
+      updateCatalog();
+    })();
+  </script>
 </body>
 </html>
