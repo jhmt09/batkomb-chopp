@@ -309,7 +309,8 @@
       text-transform: uppercase;
     }
 
-    .filter-field input {
+    .filter-field input,
+    .filter-field select {
       width: 100%;
       min-height: 44px;
       border: 1px solid rgba(126, 148, 186, 0.42);
@@ -321,7 +322,16 @@
       font-size: 18px;
     }
 
-    .filter-field input:focus {
+    .filter-field select {
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--gold-400) 50%), linear-gradient(135deg, var(--gold-400) 50%, transparent 50%);
+      background-position: calc(100% - 18px) 19px, calc(100% - 12px) 19px;
+      background-repeat: no-repeat;
+      background-size: 6px 6px;
+    }
+
+    .filter-field input:focus,
+    .filter-field select:focus {
       border-color: rgba(232, 191, 115, 0.72);
       outline: none;
       box-shadow: 0 0 0 3px rgba(232, 191, 115, 0.14);
@@ -790,9 +800,12 @@
           <input id="catalogSearch" type="search" placeholder="Produto, linha ou volume" autocomplete="off" />
         </label>
 
-        <label class="filter-field" for="priceFilter">
-          <span>Preco maximo</span>
-          <input id="priceFilter" type="text" placeholder="Ex: 20,00" inputmode="decimal" />
+        <label class="filter-field" for="priceSort">
+          <span>Filtro preco</span>
+          <select id="priceSort">
+            <option value="asc">Menor para o maior</option>
+            <option value="desc">Maior para o menor</option>
+          </select>
         </label>
 
         <button class="btn btn-secondary" id="clearCatalogFilters" type="button">Limpar</button>
@@ -1181,7 +1194,7 @@
       const supplierPhone = "556292498919";
       const grid = document.querySelector(".products-grid");
       const searchInput = document.querySelector("#catalogSearch");
-      const priceInput = document.querySelector("#priceFilter");
+      const priceSort = document.querySelector("#priceSort");
       const clearButton = document.querySelector("#clearCatalogFilters");
       const status = document.querySelector("#catalogStatus");
       const emptyState = document.querySelector("#emptyCatalogResults");
@@ -1234,39 +1247,48 @@
         }
 
         return { card, minPrice, title };
-      }).sort((a, b) => a.minPrice - b.minPrice || a.title.localeCompare(b.title, "pt-BR"));
-
-      cards.forEach(({ card }) => grid.append(card));
+      });
 
       const minCatalogPrice = Math.min(...cards.map(({ minPrice }) => minPrice));
       const maxCatalogPrice = Math.max(...cards.map(({ minPrice }) => minPrice));
 
+      const sortCards = () => {
+        const direction = priceSort?.value === "desc" ? "desc" : "asc";
+        const sortedCards = [...cards].sort((a, b) => {
+          const priceOrder = direction === "desc" ? b.minPrice - a.minPrice : a.minPrice - b.minPrice;
+          return priceOrder || a.title.localeCompare(b.title, "pt-BR");
+        });
+
+        sortedCards.forEach(({ card }) => grid.append(card));
+      };
+
       const updateCatalog = () => {
         const query = (searchInput?.value || "").trim().toLowerCase();
-        const maxPrice = parsePrice(priceInput?.value || "");
+        const directionLabel = priceSort?.value === "desc" ? "maior para o menor" : "menor para o maior";
         let visible = 0;
 
-        cards.forEach(({ card, minPrice }) => {
+        sortCards();
+
+        cards.forEach(({ card }) => {
           const matchesSearch = !query || card.dataset.search.includes(query);
-          const matchesPrice = !Number.isFinite(maxPrice) || minPrice <= maxPrice;
-          const show = matchesSearch && matchesPrice;
+          const show = matchesSearch;
 
           card.classList.toggle("is-hidden", !show);
           if (show) visible += 1;
         });
 
         if (status) {
-          status.textContent = `${visible} de ${cards.length} produtos. Ordenado do menor para o maior: ${formatPrice(minCatalogPrice)} ate ${formatPrice(maxCatalogPrice)}.`;
+          status.textContent = `${visible} de ${cards.length} produtos. Ordenado do ${directionLabel}: ${formatPrice(minCatalogPrice)} ate ${formatPrice(maxCatalogPrice)}.`;
         }
 
         emptyState?.classList.toggle("is-visible", visible === 0);
       };
 
       searchInput?.addEventListener("input", updateCatalog);
-      priceInput?.addEventListener("input", updateCatalog);
+      priceSort?.addEventListener("change", updateCatalog);
       clearButton?.addEventListener("click", () => {
         if (searchInput) searchInput.value = "";
-        if (priceInput) priceInput.value = "";
+        if (priceSort) priceSort.value = "asc";
         updateCatalog();
         searchInput?.focus();
       });
